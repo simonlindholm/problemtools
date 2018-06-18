@@ -842,7 +842,7 @@ class Graders(ProblemAspect):
             graders = self._graders
 
         grader_input = ''.join(['%s %s\n' % (r.verdict, 0 if r.score is None else r.score) for r in sub_results])
-        grader_output_re = r'^((AC)|(WA)|(TLE)|(RTE))\s+[0-9.]+\s*$'
+        grader_output_re = r'^((AC)|(WA)|(TLE)|(RTE)|(REJ))\s+[0-9.]+\s*$'
         verdict = 'AC'
         score = 0
 
@@ -1066,6 +1066,7 @@ class Submissions(ProblemAspect):
     _SUB_REGEXP = re.compile(r'^[a-zA-Z0-9][a-zA-Z0-9_.-]*[a-zA-Z0-9](\.c\+\+)?$')
     _VERDICTS = [
         ['AC', 'accepted', True],
+        ['REJ', 'rejected', False],
         ['WA', 'wrong_answer', False],
         ['RTE', 'run_time_error', False],
         ['TLE', 'time_limit_exceeded', False],

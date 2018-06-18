@@ -3,19 +3,25 @@
 import sys
 
 
-def no_errors(verdicts):
-    sorting_order = ['JE', 'IF', 'RTE', 'MLE', 'TLE', 'OLE', 'WA', 'PE', 'AC']
+def no_errors(verdicts, score):
+    sorting_order = ['JE', 'IF', 'RTE', 'MLE', 'TLE', 'OLE', 'WA', 'PE', 'REJ', 'AC']
     verdicts += ['AC']
     index = min(sorting_order.index(verdict) for verdict in verdicts)
     return sorting_order[index]
 
 
-def always_accept(verdicts):
+def always_accept(verdicts, score):
     return 'AC'
+
+
+def accept_if_nonzero(verdicts, score):
+    return 'AC' if score != 0 else 'REJ'
+
 
 verdict_aggregators = {
     'no_errors': no_errors,
-    'always_accept': always_accept
+    'always_accept': always_accept,
+    'accept_if_nonzero': accept_if_nonzero
 }
 
 
@@ -43,7 +49,8 @@ try:
     data = sys.stdin.read().split()
     verdicts = data[0::2]
     scores = map(float, data[1::2])
-    print '%s %f' % (aggregate_verdicts(verdicts), aggregate_scores(scores))
+    score = aggregate_scores(scores)
+    print '%s %f' % (aggregate_verdicts(verdicts, score), score)
 except:
     print 'JE 0'
 
